@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AttenX — Smart Attendance System</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     PORTAL SELECTOR — Landing chooser
+════════════════════════════════════════════════════ -->
+<div class="portal-screen" id="portalScreen">
+  <div class="portal-bg-shapes">
+    <div class="ps-orb ps-orb1"></div>
+    <div class="ps-orb ps-orb2"></div>
+    <div class="ps-orb ps-orb3"></div>
+  </div>
+  <div class="portal-inner">
+    <div class="portal-brand">
+      <div class="brand-logo">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <rect width="36" height="36" rx="10" fill="url(#lg1)"/>
+          <path d="M10 18h16M18 10v16" stroke="white" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="18" cy="18" r="6" stroke="white" stroke-width="2.5" fill="none"/>
+          <defs><linearGradient id="lg1" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse"><stop stop-color="#6C63FF"/><stop offset="1" stop-color="#3ECFCF"/></defs>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">AttenX</div>
+        <div class="brand-tag">Smart Attendance System</div>
+      </div>
+    </div>
+    <h1 class="portal-heading">Choose Your Portal</h1>
+    <p class="portal-desc">Select how you want to access AttenX. Each portal has different permissions tailored to your role.</p>
+    <div class="portal-cards">
+      <div class="portal-card portal-teacher" onclick="showAuthScreen('teacher')">
+        <div class="pc-icon-wrap pc-t-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 4L2 10l14 6 14-6-14-6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/>
+            <path d="M2 16l14 6 14-6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M2 22l14 6 14-6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="pc-title">Teacher Portal</div>
+        <div class="pc-sub">Full access to manage attendance, students, courses and reports.</div>
+        <div class="pc-cta-btn">Enter Teacher Portal →</div>
+      </div>
+      <div class="portal-card portal-student" onclick="showAuthScreen('student')">
+        <div class="pc-icon-wrap pc-s-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="10" r="6" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M4 28c0-6.627 5.373-12 12-12s12 5.373 12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="pc-title">Student Portal</div>
+        <div class="pc-sub">View your own attendance records, percentage and course details.</div>
+        <div class="pc-cta-btn">Enter Student Portal →</div>
+      </div>
+    </div>
+    <div class="portal-footer">© 2026 AttenX · Smart Attendance System · All Rights Reserved</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     AUTH SCREEN — Login / Register (shared wrapper)
+════════════════════════════════════════════════════ -->
+<div class="auth-screen" id="authScreen">
+  <div class="auth-left" id="authLeft">
+    <!-- Dynamic content injected by JS -->
+  </div>
+  <div class="auth-right" id="authRight">
+    <div class="auth-card" id="authCard">
+      <!-- Dynamic form injected by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     APP SHELL — Main dashboard (post-login)
+════════════════════════════════════════════════════ -->
+<div class="app-shell" id="appShell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-accent-bar"></div>
+    <div class="sb-header">
+      <div class="sb-brand">
+        <div class="sb-logo-icon">
+          <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="10" fill="url(#sbLg)"/>
+            <path d="M10 18h16M18 10v16" stroke="white" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="18" cy="18" r="6" stroke="white" stroke-width="2.5" fill="none"/>
+            <defs><linearGradient id="sbLg" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse"><stop stop-color="#6C63FF"/><stop offset="1" stop-color="#3ECFCF"/></defs>
+          </svg>
+        </div>
+        <div>
+          <div class="sb-brand-name">AttenX</div>
+          <div class="sb-brand-tag">Attendance System</div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="sb-nav" id="sbNav">
+      <!-- Injected by JS based on role -->
+    </nav>
+
+    <div class="sb-footer">
+      <div class="sb-user-card">
+        <div class="sb-user-ava" id="sbAva">T</div>
+        <div class="sb-user-info">
+          <div class="sb-user-name" id="sbName">Teacher</div>
+          <div class="sb-user-role" id="sbRole">Teacher</div>
+        </div>
+        <button class="sb-logout-btn" onclick="doLogout()" title="Logout">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
+          </svg>
+        </button>
+      </div>
+      <div class="sb-copy">© 2026 <span>AttenX</span> · All Rights Reserved</div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="app-main" id="appMain">
+    <header class="topbar">
+      <div class="tb-left">
+        <div class="tb-page-indicator">
+          <div class="tb-page-dot"></div>
+          <span class="tb-page-title" id="pgTitle">Dashboard</span>
+        </div>
+      </div>
+      <div class="tb-right">
+        <div class="tb-search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" placeholder="Search students…" id="gs" oninput="gsFn()">
+        </div>
+        <button class="tb-icon-btn" onclick="openNP()" id="notifBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span class="tb-badge" id="notifBadge">3</span>
+        </button>
+      </div>
+      <div class="tb-shine"></div>
+    </header>
+
+    <div class="page-content" id="pageContent">
+      <!-- ── TEACHER DASHBOARD ── -->
+      <div class="page" id="page-dashboard">
+        <div class="page-hero" id="dashHero">
+          <div class="hero-icon-wrap"><span id="dashHeroIcon">📊</span></div>
+          <div><div class="hero-title" id="dashHeroTitle">Dashboard</div><div class="hero-sub" id="dashHeroSub">Real-time overview</div></div>
+        </div>
+        <div class="kpi-row" id="kpiRow">
+          <div class="kpi kpi-blue">
+            <div class="kpi-glow"></div>
+            <div class="kpi-label">Total Students</div>
+            <div class="kpi-value" id="kpi-s">0</div>
+            <div class="kpi-sub">Enrolled</div>
+            <div class="kpi-icon">👥</div>
+          </div>
+          <div class="kpi kpi-amber">
+            <div class="kpi-glow"></div>
+            <div class="kpi-label">Active Courses</div>
+            <div class="kpi-value" id="kpi-c">0</div>
+            <div class="kpi-sub">This semester</div>
+            <div class="kpi-icon">📚</div>
+          </div>
+          <div class="kpi kpi-green">
+            <div class="kpi-glow"></div>
+            <div class="kpi-label">Overall Attendance</div>
+            <div class="kpi-value" id="kpi-a">0%</div>
+            <div class="kpi-sub" id="kpi-a-sub">—</div>
+            <div class="kpi-icon">✅</div>
+          </div>
+          <div class="kpi kpi-red">
+            <div class="kpi-glow"></div>
+            <div class="kpi-label">Defaulters</div>
+            <div class="kpi-value" id="kpi-d">0</div>
+            <div class="kpi-sub">Below 75%</div>
+            <div class="kpi-icon">⚠️</div>
+          </div>
+        </div>
+        <div class="dash-grid">
+          <div>
+            <div class="section-head"><span class="sh-title">Recent Attendance</span><div class="sh-line"></div></div>
+            <div class="table-wrap"><table class="data-table"><thead><tr><th>Student</th><th>Course</th><th>Date</th><th>Status</th></tr></thead><tbody id="recentBody"></tbody></table></div>
+          </div>
+          <div class="dash-right-col">
+            <div class="stat-panel">
+              <div class="sp-label">Overall Rate</div>
+              <div class="sp-value" id="overallR">0%</div>
+              <div class="prog-bar-wrap"><div class="prog-bar prog-green" id="overallB" style="width:0%"></div></div>
+            </div>
+            <div class="stat-panel">
+              <div class="sp-label">Breakdown</div>
+              <div class="breakdown-row"><div class="br-dot br-green"></div><span>Present</span><strong id="brkP">0</strong></div>
+              <div class="breakdown-row"><div class="br-dot br-red"></div><span>Absent</span><strong id="brkA" style="color:#f43f5e">0</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MARK ATTENDANCE ── -->
+      <div class="page" id="page-attendance">
+        <div class="page-hero hero-green">
+          <div class="hero-icon-wrap">✅</div>
+          <div><div class="hero-title">Mark Attendance</div><div class="hero-sub">Record daily attendance — duplicates auto-prevented</div></div>
+        </div>
+        <div class="filter-panel">
+          <div class="fp-row">
+            <div class="fg"><label class="flbl">Course</label><select class="fi" id="attC" onchange="loadAtt()"></select></div>
+            <div class="fg"><label class="flbl">Date</label><input class="fi" type="date" id="attD" onchange="loadAtt()"></div>
+          </div>
+        </div>
+        <div class="section-head">
+          <span class="sh-title">Students</span>
+          <div class="sh-line"></div>
+          <button class="btn btn-green btn-sm" onclick="markAll('PRESENT')">✅ All Present</button>
+          <button class="btn btn-outline-red btn-sm" onclick="markAll('ABSENT')">❌ All Absent</button>
+          <button class="btn btn-primary" onclick="saveAtt()">💾 Save Attendance</button>
+        </div>
+        <div class="att-grid" id="attGrid"></div>
+      </div>
+
+      <!-- ── STUDENTS ── -->
+      <div class="page" id="page-students">
+        <div class="page-hero hero-purple">
+          <div class="hero-icon-wrap">👥</div>
+          <div><div class="hero-title">Student Management</div><div class="hero-sub">Enroll, update and track all students</div></div>
+        </div>
+        <div class="filter-bar">
+          <input class="fi" style="width:215px" placeholder="🔍 Name, email, roll…" oninput="filterStu(this.value)" id="stuS">
+          <select class="fi" style="width:185px" onchange="filterStuC(this.value)" id="stuCF"><option value="">All Courses</option></select>
+          <div style="flex:1"></div>
+          <button class="btn btn-primary" onclick="openAddStu()">+ Add Student</button>
+        </div>
+        <div class="table-wrap"><table class="data-table"><thead><tr><th>Roll No.</th><th>Student</th><th>Email</th><th>Course</th><th>Attendance %</th><th>Status</th><th>Actions</th></tr></thead><tbody id="stuBody"></tbody></table></div>
+      </div>
+
+      <!-- ── COURSES ── -->
+      <div class="page" id="page-courses">
+        <div class="page-hero hero-amber">
+          <div class="hero-icon-wrap">📚</div>
+          <div><div class="hero-title">Course Management</div><div class="hero-sub">Manage courses and monitor performance</div></div>
+        </div>
+        <div class="filter-bar"><div style="flex:1"></div><button class="btn btn-primary" onclick="openAddCrs()">+ Add Course</button></div>
+        <div class="table-wrap"><table class="data-table"><thead><tr><th>Code</th><th>Course Name</th><th>Instructor</th><th>Students</th><th>Avg Attendance</th><th>Actions</th></tr></thead><tbody id="crsBody"></tbody></table></div>
+      </div>
+
+      <!-- ── REPORTS ── -->
+      <div class="page" id="page-reports">
+        <div class="page-hero hero-cyan">
+          <div class="hero-icon-wrap">📋</div>
+          <div><div class="hero-title">Attendance Reports</div><div class="hero-sub">Generate monthly reports and export data</div></div>
+        </div>
+        <div class="filter-bar">
+          <select class="fi" style="width:210px" id="repC"><option value="">All Courses</option></select>
+          <select class="fi" style="width:165px" id="repM">
+            <option value="">All Months</option>
+            <option value="2024-01">January 2026</option><option value="2024-02">February 2026</option>
+            <option value="2024-03">March 2026</option><option value="2024-04">April 2026</option>
+            <option value="2024-05">May 2026</option><option value="2024-06">June 2026</option>
+          </select>
+          <button class="btn btn-primary" onclick="genRep()">📋 Generate</button>
+          <button class="btn btn-outline" onclick="expCSV()">📥 CSV</button>
+          <button class="btn btn-outline" onclick="expPDF()">📄 PDF</button>
+        </div>
+        <div id="repOut"><div class="empty-state"><div class="es-icon">📋</div><p>Select filters and click <strong>Generate Report</strong></p></div></div>
+      </div>
+
+      <!-- ── DEFAULTERS ── -->
+      <div class="page" id="page-defaulters">
+        <div class="page-hero hero-red">
+          <div class="hero-icon-wrap">⚠️</div>
+          <div><div class="hero-title">Defaulter Students</div><div class="hero-sub">Students below 75% attendance threshold</div></div>
+        </div>
+        <div class="alert-banner alert-red">
+          <span class="ab-icon">🚨</span>
+          <div><strong>Defaulter Alert Active</strong><p>Students below 75% risk academic consequences. Immediate follow-up required.</p></div>
+          <button class="btn btn-red btn-sm" style="margin-left:auto;flex-shrink:0" onclick="expDef()">📥 Export</button>
+        </div>
+        <div class="table-wrap"><table class="data-table"><thead><tr><th>Student</th><th>Course</th><th>Held</th><th>Attended</th><th>Attendance %</th><th>Shortfall</th></tr></thead><tbody id="defBody"></tbody></table></div>
+      </div>
+
+      <!-- ── ANALYTICS ── -->
+      <div class="page" id="page-analytics">
+        <div class="page-hero hero-violet">
+          <div class="hero-icon-wrap">📈</div>
+          <div><div class="hero-title">Analytics &amp; Insights</div><div class="hero-sub">Visual breakdown of attendance trends</div></div>
+        </div>
+        <div class="charts-row">
+          <div class="chart-card"><div class="chart-card-title">Attendance % by Course</div><canvas id="bChart" height="200"></canvas></div>
+          <div class="chart-card"><div class="chart-card-title">Present vs Absent</div><canvas id="pChart" height="200"></canvas></div>
+        </div>
+        <div class="chart-card" style="margin-top:16px"><div class="chart-card-title">Student Distribution by Attendance Range</div><canvas id="dChart" height="110"></canvas></div>
+      </div>
+
+      <!-- ── STUDENT: MY ATTENDANCE ── -->
+      <div class="page" id="page-my-attendance">
+        <div class="page-hero hero-green">
+          <div class="hero-icon-wrap">📅</div>
+          <div><div class="hero-title">My Attendance</div><div class="hero-sub">Your personal attendance record across all courses</div></div>
+        </div>
+        <div class="kpi-row" id="stuKpiRow"></div>
+        <div class="section-head"><span class="sh-title">Attendance by Course</span><div class="sh-line"></div></div>
+        <div id="stuAttCards"></div>
+        <div style="margin-top:20px">
+          <div class="section-head"><span class="sh-title">Attendance Log</span><div class="sh-line"></div></div>
+          <div class="table-wrap"><table class="data-table"><thead><tr><th>Course</th><th>Date</th><th>Status</th></tr></thead><tbody id="stuAttLog"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- ── STUDENT: MY PROFILE ── -->
+      <div class="page" id="page-my-profile">
+        <div class="page-hero hero-purple">
+          <div class="hero-icon-wrap">👤</div>
+          <div><div class="hero-title">My Profile</div><div class="hero-sub">Your account details and enrollment information</div></div>
+        </div>
+        <div id="stuProfile"></div>
+      </div>
+
+    </div><!-- /page-content -->
+
+    <footer class="app-footer">
+      © 2026 <span>AttenX</span> — Smart Attendance System · All Rights Reserved · Built with ❤️ for Academic Excellence
+    </footer>
+  </main>
+</div><!-- /app-shell -->
+
+<!-- ══ MODALS ══ -->
+<div class="modal-overlay" id="mStu">
+  <div class="modal-box">
+    <div class="modal-head"><span class="modal-title" id="mSTtl">Add Student</span><button class="modal-close" onclick="closeM('mStu')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="eSId">
+      <div class="fg"><label class="flbl">Full Name *</label><input class="fi" id="sN" placeholder="e.g. Aryan Sharma"></div>
+      <div class="fg"><label class="flbl">Email Address *</label><input class="fi" id="sE" type="email" placeholder="student@example.edu"></div>
+      <div class="fg-row">
+        <div class="fg"><label class="flbl">Course *</label><select class="fi" id="sCrs"></select></div>
+        <div class="fg"><label class="flbl">Roll Number</label><input class="fi" id="sR" placeholder="e.g. CS2024001"></div>
+      </div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-outline" onclick="closeM('mStu')">Cancel</button><button class="btn btn-primary" onclick="saveStu()">Save Student</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="mCrs">
+  <div class="modal-box">
+    <div class="modal-head"><span class="modal-title" id="mCTtl">Add Course</span><button class="modal-close" onclick="closeM('mCrs')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="eCId">
+      <div class="fg"><label class="flbl">Course Name *</label><input class="fi" id="cN" placeholder="e.g. Data Structures"></div>
+      <div class="fg-row">
+        <div class="fg"><label class="flbl">Code *</label><input class="fi" id="cC" placeholder="CS301"></div>
+        <div class="fg"><label class="flbl">Instructor</label><input class="fi" id="cI" placeholder="Dr. Patel"></div>
+      </div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-outline" onclick="closeM('mCrs')">Cancel</button><button class="btn btn-primary" onclick="saveCrs()">Save Course</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="mConf">
+  <div class="modal-box" style="max-width:380px">
+    <div class="modal-head"><span class="modal-title" style="color:#e84c6b">⚠️ Confirm Delete</span><button class="modal-close" onclick="closeM('mConf')">✕</button></div>
+    <div class="modal-body"><p class="conf-msg" id="confMsg">Are you sure?</p></div>
+    <div class="modal-foot"><button class="btn btn-outline" onclick="closeM('mConf')">Cancel</button><button class="btn btn-red" onclick="doConf()">Delete</button></div>
+  </div>
+</div>
+
+<!-- ══ NOTIFICATION PANEL ══ -->
+<div class="notif-panel" id="npanel">
+  <div class="np-head"><span class="np-title">🔔 Notifications</span><button class="modal-close" onclick="closeNP()">✕</button></div>
+  <div id="npList"></div>
+</div>
+
+<!-- ══ TOAST DOCK ══ -->
+<div class="toast-dock" id="toastDock"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
