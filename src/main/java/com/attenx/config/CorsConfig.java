@@ -14,11 +14,11 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         
-        // Production frontend URL (will be updated after Vercel deployment)
+        // Production frontend URLs
         config.setAllowedOrigins(Arrays.asList(
             "http://localhost:3000",  // Local development
             "http://localhost:5173",  // Vite dev server
-            "https://attenx.vercel.app"  // Production Vercel URL
+            "https://attendance-system-qwmo.onrender.com"  // Production Render URL
         ));
         
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
