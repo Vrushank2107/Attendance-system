@@ -12,9 +12,9 @@ services:
       - key: PORT
         value: 8080
       - key: MYSQLHOST
-        value: mysql.railway.internal
+        value: switchback.proxy.rlwy.net
       - key: MYSQLPORT
-        value: 3306
+        value: 45149
       - key: MYSQLDATABASE
         value: railway
       - key: MYSQLUSER
