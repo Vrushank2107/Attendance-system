@@ -5,7 +5,10 @@
    ══════════════════════════════════════════════════════ */
 
 // ── BACKEND URL ────────────────────────────────────────
-const API = "http://localhost:8082/api";
+const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+const API = isProduction 
+  ? "https://attendance-system-qwmo.onrender.com/api"
+  : "http://localhost:8082/api";
 
 // ── API HELPER ─────────────────────────────────────────
 // Single function for all backend calls
