@@ -2,13 +2,10 @@ services:
   # Spring Boot Backend Service
   - type: web
     name: attenx-backend
-    env: java
+    env: docker
     plan: free
-    buildCommand: ./mvnw clean package -DskipTests
-    startCommand: java -jar target/attenx-backend-1.0.0.jar
+    dockerfilePath: ./Dockerfile
     envVars:
-      - key: JAVA_VERSION
-        value: 17
       - key: PORT
         value: 8080
       - key: MYSQLHOST
